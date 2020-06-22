@@ -81,6 +81,14 @@ userSchema.statics.findByCredentials = async(email, password) => {
     }
     return user
 }
+userSchema.statics.findByEmail = async(email) => {
+    // Search for a user by email.
+    const user = await User.findOne({ email })
+    if (!user) {
+        throw new Error('Invalid Email')
+    }
+    return user
+}
 
 userSchema.statics.findByToken = async(token) => {
     // Search for a user by Token.

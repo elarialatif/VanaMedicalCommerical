@@ -17,9 +17,9 @@ const upload = multer({ storage: storage });
 
 // 
 const router = express.Router();
+// Create User = Register
 var fieldUpload = upload.fields([{ name: 'taxCard' }, { name: 'copyOfCommericalRegistration' }]);
 router.post('/users', fieldUpload, async(req, res) => {
-    // router.post('/users', upload.single('taxCard', 'copyOfCommericalRegistration'), async(req, res) => {
     // Create a new user
     try {
         const user = new User();
@@ -36,10 +36,9 @@ router.post('/users', fieldUpload, async(req, res) => {
     } catch (error) {
         res.status(400).send(error)
     }
-})
-
+});
+//Login a registered user
 router.post('/users/login', async(req, res) => {
-    //Login a registered user
     try {
         const { email, password } = req.body
         const user = await User.findByCredentials(email, password)
@@ -55,18 +54,16 @@ router.post('/users/login', async(req, res) => {
         res.status(400).send({ error: error.message })
     }
 
-})
-
+});
+// View logged in user profile
 router.get('/users/me', async(req, res) => {
-    // View logged in user profile
     cookies = new Cookies(req, res);
     const token = await cookies.get('name');
     const user = await User.findByToken(token)
     res.send(user)
-})
-
+});
+// Log user out of the application
 router.post('/users/me/logout', async(req, res) => {
-    // Log user out of the application
     try {
         // req.user.tokens = req.user.tokens.filter((token) => {
         //     return token.token != req.token
@@ -78,10 +75,9 @@ router.post('/users/me/logout', async(req, res) => {
     } catch (error) {
         res.status(500).send(error)
     }
-})
-
+});
+// Log user out of all devices
 // router.post('/users/me/logoutall', auth, async(req, res) => {
-//     // Log user out of all devices
 //     try {
 //         req.user.tokens.splice(0, req.user.tokens.length)
 //         await req.user.save()
@@ -90,5 +86,18 @@ router.post('/users/me/logout', async(req, res) => {
 //         res.status(500).send(error)
 //     }
 // })
+//forgetpassword
+router.post('/users/forgetPassword', async(req, res) => {
+    try {
+        const { email } = req.body
+        const user = await User.findByEmail(email)
+        if (!user) {
+            return res.status(401).send({ error: 'Email is not existed!' });
+        }
+        return res.send({ message: 'Email is existed', user });
+    } catch (error) {
+        res.status(400).send({ error: error.message })
+    }
 
+});
 module.exports = router
