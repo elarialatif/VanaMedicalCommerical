@@ -17,9 +17,9 @@ const upload = multer({ storage: storage });
 
 // 
 const router = express.Router();
-
-// router.post('/users', async(req, res) => {
-router.post('/users', upload.single('taxCard'), async(req, res) => {
+var fieldUpload = upload.fields([{ name: 'taxCard' }, { name: 'copyOfCommericalRegistration' }]);
+router.post('/users', fieldUpload, async(req, res) => {
+    // router.post('/users', upload.single('taxCard', 'copyOfCommericalRegistration'), async(req, res) => {
     // Create a new user
     try {
         const user = new User();
@@ -29,9 +29,8 @@ router.post('/users', upload.single('taxCard'), async(req, res) => {
         user.phoneNumber = req.body.phoneNumber;
         user.address = req.body.address;
         user.shareCode = req.body.shareCode;
-        user.copyOfCommericalRegistration = req.body.copyOfCommericalRegistration;
-        user.taxCard = req.file.path;
-        // user.taxCard = req.body.taxCard;
+        user.copyOfCommericalRegistration = req.files['copyOfCommericalRegistration'][0].path;
+        user.taxCard = req.files['taxCard'][0].path;
         user.generateAuthToken();
         res.send(user);
     } catch (error) {
