@@ -1,17 +1,37 @@
-const express = require('express')
-const User = require('../models/User')
-const auth = require('../middleware/auth')
-const Cookies = require('cookies')
+const express = require('express');
+const User = require('../models/User');
+const auth = require('../middleware/auth');
+const Cookies = require('cookies');
+// 
 
-const router = express.Router()
+const multer = require('multer')
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function(req, file, cb) {
+        cb(null, file.originalname)
+    }
+});
+const upload = multer({ storage: storage });
 
-router.post('/users', async(req, res) => {
+// 
+const router = express.Router();
+
+// router.post('/users', async(req, res) => {
+router.post('/users', upload.single('taxCard'), async(req, res) => {
     // Create a new user
     try {
         const user = new User();
         user.name = req.body.name;
         user.email = req.body.email;
         user.password = req.body.password;
+        user.phoneNumber = req.body.phoneNumber;
+        user.address = req.body.address;
+        user.shareCode = req.body.shareCode;
+        user.copyOfCommericalRegistration = req.body.copyOfCommericalRegistration;
+        user.taxCard = req.file.path;
+        // user.taxCard = req.body.taxCard;
         user.generateAuthToken();
         res.send(user);
     } catch (error) {
@@ -30,7 +50,8 @@ router.post('/users/login', async(req, res) => {
         const token = user.token
         cookies = new Cookies(req, res);
         await cookies.set('name', user.token)
-        res.send(cookies.get('name'))
+            // res.send(cookies.get('name'))
+        res.send(user)
     } catch (error) {
         res.status(400).send({ error: error.message })
     }

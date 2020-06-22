@@ -25,6 +25,26 @@ const userSchema = mongoose.Schema({
         required: true,
         minLength: 7
     },
+    phoneNumber: {
+        type: String,
+        required: true
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    shareCode: {
+        type: String,
+        required: true
+    },
+    copyOfCommericalRegistration: {
+        type: String,
+        required: true
+    },
+    taxCard: {
+        type: String,
+        required: true
+    },
     token: {
         type: String,
         required: true,
