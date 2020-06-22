@@ -10,6 +10,7 @@ let mongoose = require('mongoose');
 let app = express();
 
 let userRouter = require('./routers/user');
+let categoryRouter = require('./routers/category');
 // for parsing application/xwww-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: true
@@ -38,6 +39,7 @@ app.use(express.static('public'));
 
 app.use(express.json())
 app.use('/api', userRouter);
+app.use('/api', categoryRouter);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
