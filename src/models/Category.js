@@ -2,7 +2,19 @@ const mongoose = require('mongoose')
 const validator = require('validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-
+    // 
+var Products = mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    details: {
+        type: String,
+        required: true
+    }
+});
+// 
 const categorySchema = mongoose.Schema({
     name: {
         type: String,
@@ -20,17 +32,9 @@ const categorySchema = mongoose.Schema({
     categoryImg: {
         type: String,
         required: true
-    }
+    },
+    products: [Products]
 })
-
-// categorySchema.pre('save', async function(next) {
-//     // Hash the password before saving the user model
-//     const user = this
-//     if (user.isModified('password')) {
-//         user.password = await bcrypt.hash(user.password, 8)
-//     }
-//     next()
-// })
 
 
 const Category = mongoose.model('Category', categorySchema)

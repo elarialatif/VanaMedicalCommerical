@@ -86,7 +86,7 @@ router.post('/users/me/logout', async(req, res) => {
 //         res.status(500).send(error)
 //     }
 // })
-//forgetpassword
+// ForgetPassword
 router.post('/users/forgetPassword', async(req, res) => {
     try {
         const { email } = req.body
@@ -98,6 +98,48 @@ router.post('/users/forgetPassword', async(req, res) => {
     } catch (error) {
         res.status(400).send({ error: error.message })
     }
+
+});
+// Update Profile Info
+router.put('/users/:user_id', async(req, res) => {
+    User.findById(req.params.user_id, function(err, user) {
+        if (err)
+            res.send(err);
+        user.name = req.body.name ? req.body.name : user.name;
+        user.email = req.body.email;
+        user.phoneNumber = req.body.phoneNumber;
+        user.address = req.body.address;
+        // save the user and check for errors
+        user.save(function(err) {
+            if (err)
+                res.json(err);
+            res.json({
+                message: 'User Info updated',
+                data: user
+            });
+        });
+    });
+
+});
+// Change Password
+router.put('/users/changePassword/:user_id', async(req, res) => {
+    User.findById(req.params.user_id, function(err, user) {
+        if (err)
+            res.send(err);
+        user.name = req.body.name ? req.body.name : user.name;
+        user.email = req.body.email;
+        user.phoneNumber = req.body.phoneNumber;
+        user.address = req.body.address;
+        // save the user and check for errors
+        user.save(function(err) {
+            if (err)
+                res.json(err);
+            res.json({
+                message: 'User Password Changed',
+                data: user
+            });
+        });
+    });
 
 });
 module.exports = router
