@@ -44,25 +44,25 @@ router.get('/aboutVana', async(req, res) => {
 
 //============================
 // Update Single AboutVana
-// router.put('/categories/:id', upload.single('categoryImg'), async(req, res) => {
-//     Category.findById(req.params.id, function(err, category) {
-//         category.name = req.body.name;
-//         category.details = req.body.details;
-//         category.rate = req.body.rate;
-//         category.categoryImg = req.file.path;
-//         category.products = req.body.products;
-//         // Save Updated
+router.put('/aboutVana/:id', upload.single('vanaLogo'), async(req, res) => {
+    AboutVana.findById(req.params.id, function(err, about) {
+        about.name = req.body.name;
+        about.who_we_are = req.body.who_we_are;
+        about.privacy_policy = req.body.privacy_policy;
+        about.vanaLogo = req.file.path;
+        about.terms_conditions = req.body.terms_conditions;
+        // Save Updated
 
-//         return category.save(function(err) {
-//             if (!err) {
-//                 return res.send({ message: 'Category is updated', category });
-//             } else {
-//                 res.status(400).send(error);
-//             }
-//             return res.send(category);
-//         });
+        return about.save(function(err) {
+            if (!err) {
+                return res.send({ message: 'About is updated', about });
+            } else {
+                res.status(400).send(error);
+            }
+            return res.send(about);
+        });
 
-//     });
-// });
+    });
+});
 //============================
 module.exports = router
