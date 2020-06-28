@@ -9,7 +9,7 @@ let app = express();
 // Routes
 let userRouter = require('./routers/user');
 let categoryRouter = require('./routers/category');
-// let productRouter = require('./routers/product');
+let aboutRouter = require('./routers/aboutvana');
 //========================================
 // for parsing application/xwww-form-urlencoded
 app.use(bodyParser.urlencoded({
@@ -40,7 +40,7 @@ app.use(express.json());
 //========================================
 app.use('/api', userRouter);
 app.use('/api', categoryRouter);
-// app.use('/api', productRouter);
+app.use('/api', aboutRouter);
 //========================================
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
