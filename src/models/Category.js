@@ -12,7 +12,24 @@ var Products = mongoose.Schema({
     details: {
         type: String,
         required: true
+    },
+    price: {
+        type: String,
+        required: true
+    },
+    number: {
+        type: String,
+        required: true
+    },
+    bonus: {
+        type: String,
+        required: true
     }
+    // ,
+    // productImg: {
+    //     type: String,
+    //     required: true
+    // }
 });
 // 
 const categorySchema = mongoose.Schema({
